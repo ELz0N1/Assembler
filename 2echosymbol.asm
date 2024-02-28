@@ -28,6 +28,6 @@ main:    #entry point
   printch
   addi a0, a0, 1
   printch
-  jal main
+  j main
 foo:
   exit 0
