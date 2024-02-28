@@ -20,7 +20,7 @@
 main:    #entry point
   li a2, 10
   readch
-  beq a0, a2, foo
+  beq a0, a2, end
   addi a1, a0, 0
   li a0, 10
   printch
@@ -29,5 +29,5 @@ main:    #entry point
   addi a0, a0, 1
   printch
   j main
-foo:
+end:
   exit 0
