@@ -51,7 +51,7 @@ main:    #entry point
 scanfirstnumber:
   li a0, 0
   readch
-  beq a0, a3, scansecondnumber # выход
+  beq a0, a3, scansecondnumber # переход к следующей операции
   
   addi a0, a0, -48
   blt a0, a3, nothex
