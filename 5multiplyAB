@@ -1,0 +1,105 @@
+.text
+.macro syscall %n
+  li a7, %n
+  ecall
+.end_macro
+
+.macro exit %ecode
+  li a0, %ecode
+  syscall 93
+.end_macro
+
+.macro readch # result in a0[0:7]
+  syscall 12
+.end_macro
+
+.macro printch # argument in a0[0:7]
+  syscall 11
+.end_macro
+
+.macro multiply # коррекция сложения
+  li a1, 0 # счетчик
+  li s3, 10
+  li s7, 31
+  
+  mv t0, a4
+  li s2, 0
+  
+multiplyloop:
+  andi t4, a5, 0x00000001
+  beq t4, x0, skip1 
+  
+  mv t0, a4
+  sll t0, t0, a1
+  add s2, s2, t0
+  
+skip1:
+  srli a5, a5, 1
+  addi a1, a1, 1
+  blt a1, s7, multiplyloop
+.end_macro
+
+.macro printresult # Вывод ответа
+  li a1, 7
+  li s3, 10
+  mv s4, s2
+  li a0, 10
+  printch
+  
+loop:
+  mv t0, a1
+  
+  mv s4, s2
+  slli t0, t0, 2
+  srl s4, s4, t0
+  
+  andi a2, s4, 0x0000000f # Маска младший neeble в слове
+  blt a2, s3, spot
+  addi a2, a2, 7
+  
+spot:
+  addi a0, a2, 48
+  printch
+  addi a1, a1, -1
+  bge a1, x0, loop
+.end_macro
+
+main:    #entry point
+  li a3, 10
+  
+scanfirstnumber:
+  li a0, 0
+  readch
+  beq a0, a3, scansecondnumber # Переход к считыванию следующего числа
+  
+  addi a0, a0, -48
+  blt a0, a3, nothex
+  andi a0, a0, 0xFFFFFFDF # Преобразование к верхнему регистру
+  addi a0, a0, -7 # Если число от A - F
+  
+nothex:
+  slli a4, a4, 4
+  add a4, a4, a0
+  j scanfirstnumber
+
+scansecondnumber:
+  li a0, 0
+  readch
+  beq a0, a3, multiplication  # Переход к операции умножения
+  
+  addi a0, a0, -48
+  blt a0, a3, nothex2
+  andi a0, a0, 0xFFFFFFDF # Преобразование к верхнему регистру
+  addi a0, a0, -7 # Если число от A - F
+  
+nothex2:
+  slli a5, a5, 4
+  add a5, a5, a0
+  j scansecondnumber
+
+multiplication:
+  multiply
+  printresult
+  
+end:
+  exit 0
