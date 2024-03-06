@@ -51,7 +51,7 @@ main:    #entry point
 scanfirstnumber:
   li a0, 0
   readch
-  beq a0, a3, scansecondnumber # переход к следующей операции
+  beq a0, a3, scansecondnumber # Переход к считыванию следующего числа
   
   addi a0, a0, -48
   blt a0, a3, nothex
@@ -66,7 +66,7 @@ nothex:
 scansecondnumber:
   li a0, 0
   readch
-  beq a0, a3, scanoperation # переход к следующей операции
+  beq a0, a3, scanoperation # Переход к считыванию операции
   
   addi a0, a0, -48
   blt a0, a3, nothex2
