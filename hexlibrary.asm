@@ -51,7 +51,7 @@ lengtherror:
   error "Maximum number of characters exceeded!" 
   
 printhex: # void printhex(int N)
-  push3 ra, s1, s2
+  push2 s1, s2
   li s1, 0
   li s2, 0
   mv s1, a0
@@ -81,5 +81,5 @@ spot:
   addi t0, t0, -1
   bgez t0, loop
   
-  pop3 ra, s1, s2
+  pop2 s1, s2
   ret
