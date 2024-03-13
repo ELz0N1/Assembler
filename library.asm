@@ -33,10 +33,24 @@ str: .asciz %str
   sw %r2, 4(sp)
 .end_macro
 
-.macro pop2 %rd1, %rd2
+.macro pop2 %r1, %r2
   lw %r1, 0(sp)
   lw %r2, 4(sp)
   addi sp, sp, 8
+.end_macro
+
+.macro push3 %r1, %r2, %r3
+  addi sp, sp, -12
+  sw %r1, 0(sp)
+  sw %r2, 4(sp)
+  sw %r3, 8(sp)
+.end_macro
+
+.macro pop3 %r1, %r2, %r3
+  lw %r1, 0(sp)
+  lw %r2, 4(sp)
+  lw %r3, 8(sp)
+  addi sp, sp, 12
 .end_macro
 
 .macro swap %r1, %r2
