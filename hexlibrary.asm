@@ -1,4 +1,4 @@
-symbolcheck:
+symbolcheck: # char symbolcheck(char C)
   li t0, 103
   bge a0, t0, symbolerror
   li t0, 97
@@ -22,7 +22,7 @@ numbers:
 symbolerror:
   error "Inncorect symbol!"
 
-readhex:
+readhex: int readhex()
   li t4, 10
   li t1, 8 # количество допустимых разрядов числа
   li t2, 0 # счетчик цикла
@@ -50,7 +50,7 @@ quitloop:
 lengtherror:
   error "Maximum number of characters exceeded!" 
   
-printhex: # вывод шестнадцатиричного числа
+printhex: # void printhex(int N)
   push3 ra, s1, s2
   li s1, 0
   li s2, 0
