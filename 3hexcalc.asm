@@ -1,9 +1,8 @@
-_start:
-  j main
-
 .include "macrolibrary.asm"
 .include "hexlibrary.asm"
 
+.text
+.global main
 main:    #entry point 
 
   call readhex
