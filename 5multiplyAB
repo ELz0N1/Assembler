@@ -1,38 +1,26 @@
-.include "library.asm"
+_start:
+  j main
+
+.include "macrolibrary.asm"
+.include "hexlibrary.asm"
 
 .text
 main:    #entry point
   call readhex
-  mv a4, a5
-  li a5, 0
+  mv s0, a0
   call readhex
+  mv s1, a0
   call multiply
-  call printresult
+  call printhex
   exit 0
-
-
-readhex:
- li t3, 10
-  readch
-  beq a0, t3, quitloop # Переход к считыванию следующего числа
-  
-  addi a0, a0, -48
-  blt a0, t3, nothex
-  andi a0, a0, 0xFFFFFFDF # Преобразование к верхнему регистру
-  addi a0, a0, -7 # Если число от A - F
-  
-nothex:
-  slli a5, a5, 4
-  add a5, a5, a0
-  j readhex
-
-quitloop:
-  ret
   
   
 multiply: # int multiply(int a4, int a5) возвращает результат умножения в s2
   li t1, 0 # счетчик
   li t2, 31
+  push3 s0, s1, s2
+  mv a4, s0
+  mv a5, s1
   
 multiplyloop:
   andi t4, a5, 0x00000001
@@ -46,30 +34,7 @@ skip1:
   srli a5, a5, 1
   addi t1, t1, 1
   blt t1, t2, multiplyloop
+  mv a0, s2
+  pop3 s0, s1, s2
   ret
 
-printresult: # Вывод ответа
-  li t3, 10
-  li t1, 7
-  mv s4, s2
-  li a0, 10
-  printch
-  
-loop:
-  mv t0, t1
-  
-  mv s4, s2
-  slli t0, t0, 2
-  srl s4, s4, t0
-  
-  andi a2, s4, 0x0000000f # Маска младший neeble в слове
-  blt a2, t3, spot
-  addi a2, a2, 7
-  
-spot:
-  addi a0, a2, 48
-  printch
-  addi t1, t1, -1
-  bgez t1, loop
-  
-  ret
