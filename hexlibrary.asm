@@ -34,7 +34,7 @@ readhex:
 readloop:
   readch
   slt s1, t1, t2 # записываем код ошибки переполнения числа
-  bnez s1, lengtherror
+
   beq a0, t4, quitloop # Выход из цикла
   
   call symbolcheck
@@ -45,6 +45,7 @@ readloop:
   j readloop
   
 quitloop:
+  bnez s1, lengtherror
   mv a0, s0
   pop3 ra, s0, s1
   ret 
