@@ -24,16 +24,14 @@ symbolerror:
 
 
 readhex:
-  li t4, 10
-  li t1, 8 # количество допустимых разрядов числа
-  li t2, 0 # счетчик цикла
   push3 ra, s0, s1
+  li t4, 10
+  li t2, 0 # счетчик цикла
   li s0, 0
   li s1, 0
   
 readloop:
   readch
-  slt s1, t1, t2 # записываем код ошибки переполнения числа
 
   beq a0, t4, quitloop # Выход из цикла
   
@@ -45,6 +43,8 @@ readloop:
   j readloop
   
 quitloop:
+  li t1, 8 # количество допустимых разрядов числа
+  slt s1, t1, t2 # записываем код ошибки переполнения числа
   bnez s1, lengtherror
   mv a0, s0
   pop3 ra, s0, s1
