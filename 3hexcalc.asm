@@ -25,21 +25,25 @@ main:    #entry point
   
 addition:
   add a0, s0, s1
+  newline
   call printhex
   j end
   
 subtraction:
   sub a0, s0, s1
+  newline
   call printhex
   j end
   
 andoperation:
   and a0, s0, s1
+  newline
   call printhex
   j end
   
 oroperation:
   or a0, s0, s1
+  newline
   call printhex
   j end
 
