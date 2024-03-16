@@ -24,26 +24,26 @@ main:    #entry point
   error "Incorrect operation!"
   
 addition:
-  add a0, s0, s1
   newline
+  add a0, s0, s1
   call printhex
   j end
   
 subtraction:
-  sub a0, s0, s1
   newline
+  sub a0, s0, s1
   call printhex
   j end
   
 andoperation:
-  and a0, s0, s1
   newline
+  and a0, s0, s1
   call printhex
   j end
   
 oroperation:
-  or a0, s0, s1
   newline
+  or a0, s0, s1
   call printhex
   j end
 
