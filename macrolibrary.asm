@@ -59,10 +59,10 @@ str: .asciz %str
   xor %r1, %r1, %r2
 .end_macro
 
-.eqv src t6
+.eqv scr t6
 .macro bnei %r, %i, %label
-  li src, %i
-  bne %r, src, %label 
+  li scr, %i
+  bne %r, scr, %label 
 .end_macro
 
 .macro readch # result in a0[0:7]
