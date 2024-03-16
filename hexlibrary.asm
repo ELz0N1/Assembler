@@ -55,8 +55,8 @@ lengtherror:
 printhex: # void printhex(n)
   li t0, 7
   li t3, 10
-  mv t4, a0 #s1
-  mv t5, t4 #s2
+  mv t4, a0
+  mv t5, t4
 
   li a0, '0'
   printch
