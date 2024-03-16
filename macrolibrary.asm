@@ -72,3 +72,8 @@ str: .asciz %str
 .macro printch # argument in a0[0:7]
   syscall 11
 .end_macro
+
+.macro newline # \n
+  li a0, 10
+  printch
+.end_macro
