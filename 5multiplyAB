@@ -1,0 +1,18 @@
+.include "macrolibrary.asm"
+.include "hexlibrary.asm"
+.include "multiply.asm"
+
+.text
+.global main
+main:
+  call readhex
+  mv s0, a0
+  
+  call readhex
+  mv s1, a0
+  
+  call multiply
+  call printhex
+  
+  exit 0
+
