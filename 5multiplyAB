@@ -1,40 +1,38 @@
-_start:
-  j main
-
 .include "macrolibrary.asm"
 .include "hexlibrary.asm"
 
 .text
-main:    #entry point
+.global main
+main:
   call readhex
   mv s0, a0
+  
   call readhex
   mv s1, a0
+  
   call multiply
   call printhex
+  
   exit 0
   
   
 multiply: # int multiply(int a4, int a5) возвращает результат умножения в s2
   li t1, 0 # счетчик
   li t2, 31
-  push3 s0, s1, s2
   mv a4, s0
   mv a5, s1
   
 multiplyloop:
   andi t4, a5, 0x00000001
-  beq t4, x0, skip1 
+  beqz t4, skip1 
   
-  mv t0, a4
-  sll t0, t0, t1
-  add s2, s2, t0
+  sll t0, a4, t1
+  add t3, t3, t0
   
 skip1:
   srli a5, a5, 1
   addi t1, t1, 1
   blt t1, t2, multiplyloop
-  mv a0, s2
-  pop3 s0, s1, s2
+  
+  mv a0, t3
   ret
-
