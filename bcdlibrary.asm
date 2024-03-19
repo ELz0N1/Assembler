@@ -45,9 +45,7 @@ lengtherror:
 
 addWithCorrection: # сложение с коррекцией
   push s4
-  li t0, 0
   li t1, 0 # счетчик
-  li t2, 6
   mv a4, s0
   mv a5, s1
   
@@ -70,6 +68,7 @@ skip1:
   add a1, a1, t6
   
   addi t1, t1, 1
+  li t2, 6
   blt t1, t2, addloop
   
   slli a1, a1, 4
@@ -82,9 +81,7 @@ skip1:
 
 subWithCorrection: # вычитание с коррекцией
   push s4
-  li t0, 0
   li t1, 0 # счетчик
-  li t2, 6
   mv a4, s0
   mv a5, s1
 
@@ -107,6 +104,7 @@ skip2:
   add a1, a1, t6
   
   addi t1, t1, 1
+  li t2, 6
   blt t1, t2, subloop
   
   slli a1, a1, 4
