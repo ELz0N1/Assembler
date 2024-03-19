@@ -18,7 +18,6 @@ main:
   
 multiply: # int multiply(int a4, int a5) возвращает результат умножения в s2
   li t1, 0 # счетчик
-  li t2, 31
   mv a4, s0
   mv a5, s1
   
@@ -32,7 +31,9 @@ multiplyloop:
 skip1:
   srli a5, a5, 1
   addi t1, t1, 1
+  li t2, 31
   blt t1, t2, multiplyloop
   
   mv a0, t3
   ret
+
