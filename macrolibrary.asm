@@ -59,10 +59,32 @@ str: .asciz %str
   xor %r1, %r1, %r2
 .end_macro
 
+.macro push4 %r1, %r2, %r3, %r4
+  addi sp, sp, -16
+  sw %r1, 0(sp)
+  sw %r2, 4(sp)
+  sw %r3, 8(sp)
+  sw %r4, 12(sp)
+.end_macro
+
+.macro pop4 %r1, %r2, %r3, %r4
+  lw %r1, 0(sp)
+  lw %r2, 4(sp)
+  lw %r3, 8(sp)
+  lw %r4, 12(sp)
+  addi sp, sp, 16
+.end_macro
+
 .eqv scr t6
 .macro bnei %r, %i, %label
   li scr, %i
   bne %r, scr, %label 
+.end_macro
+
+.eqv scr t6
+.macro beqi %r, %i, %label
+  li scr, %i
+  beq %r, scr, %label 
 .end_macro
 
 .macro readch # result in a0[0:7]
