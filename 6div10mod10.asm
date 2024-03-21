@@ -14,6 +14,7 @@ main:
   
   newline
   
+  mv a0, s0
   call mod10
   call printhex
   
