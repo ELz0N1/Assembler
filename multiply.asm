@@ -1,8 +1,8 @@
-multiply: # int multiply(int a4, int a5) возвращает результат умножения в s2
+multiply: # int multiply(int a4, int a5)
   li t1, 0 # счетчик
   li t3, 0
-  mv a4, s0
-  mv a5, s1
+  mv a4, a0
+  mv a5, a1
   
 multiplyloop:
   andi t4, a5, 0x00000001
