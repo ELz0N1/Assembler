@@ -140,9 +140,10 @@ udiv:
   sll s0, s0, t0
   
 udivloop:
-  and t2, s1, t1 # t2 - temp devidend
+  and t2, s1, t1 # t2 = temp devidend
   slli t3, t3, 1
   blt t2, s0, udivloopend
+
   addi t3, t3, 1
   sub s1, s1, s0
   
