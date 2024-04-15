@@ -126,36 +126,38 @@ lenbinloop:
 	
 udiv:
   push3 ra, s0, s1
-  mv s0, a1 # dividend
-  mv s1, a0 # divisor
+  beqz a1, udiv_error
+  mv s0, a0 # dividend
+  mv s1, a1 # divisor
   
-  call lenbinform # a1 = len(devisor)
+  call lenbinform # a1 = len(divisor)
   swap a0, a1
   call lenbinform # a0 = len(dividend)
   
-  li t3, 0 # quotient
   li t1, 0xffffffff
-  sub t0, a1, a0  # t0 = len(divisor) - len(dividend)
+  sub t0, a1, a0  # t0 = len(dividend) - len(divisor)
   sll t1, t1, t0 
-  sll s0, s0, t0
+  sll s1, s1, t0
+  li t3, 0 # quotient
   
 udivloop:
-  and t2, s1, t1 # t2 = temp devidend
+  and t2, s0, t1 # t2 = current dividend
   slli t3, t3, 1
-  blt t2, s0, udivloopend
-
+  blt t2, s1, udivloopend
   addi t3, t3, 1
-  sub s1, s1, s0
+  sub s0, s0, s1
   
 udivloopend:
   srli t1, t1, 1
-  srli s0, s0, 1
+  srli s1, s1, 1
   addi t0, t0, -1
   bgez t0, udivloop
 	
   mv a0, t3
   pop3 ra, s0, s1
   ret
+udiv_error:
+  error "Сan't be divided by zero"
 
 
 sdiv:
