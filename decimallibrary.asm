@@ -100,10 +100,8 @@ readOperation:
   
   li t0,  '+'
   beq a0, t0, _add
- 
   li t0, '-'
   beq a0, t0, _sub
-  
   error "Incorrect operation!"
 
 _sub:
@@ -111,4 +109,71 @@ _sub:
 
 _add:
   addWithOverflowCheck a0, s0, s1
+  ret
+  
+  
+lenbinform:
+  li t0, 0
+
+lenbinloop:
+  srli a0, a0, 1
+  addi t0, t0, 1
+  bnez a0, lenbinloop
+  
+  mv a0, t0
+  ret
+
+	
+udiv:
+  push3 ra, s0, s1
+  mv s0, a1 # dividend
+  mv s1, a0 # divisor
+  
+  call lenbinform # a1 = len(devisor)
+  swap a0, a1
+  call lenbinform # a0 = len(dividend)
+  
+  li t3, 0 # quotient
+  li t1, 0xffffffff
+  sub t0, a1, a0  # t0 = len(divisor) - len(dividend)
+  sll t1, t1, t0 
+  sll s0, s0, t0
+  
+udivloop:
+  and t2, s1, t1 # t2 - temp devidend
+  slli t3, t3, 1
+  blt t2, s0, udivloopend
+  addi t3, t3, 1
+  sub s1, s1, s0
+  
+udivloopend:
+  srli t1, t1, 1
+  srli s0, s0, 1
+  addi t0, t0, -1
+  bgez t0, udivloop
+	
+  mv a0, t3
+  pop3 ra, s0, s1
+  ret
+
+
+sdiv:
+  push2 ra, s0
+  li s0, 0
+  bgez a0, sdivsecondnumber
+  neg a0, a0
+  addi s0, s0, 1
+  
+sdivsecondnumber:
+  bgez a1, sdivexecution
+  neg a1, a1
+  addi s0, s0, -1
+  
+sdivexecution:
+  call udiv
+  beqz s0, sdivend
+  neg a0, a0
+  
+sdivend:
+  pop2 ra, s0
   ret
