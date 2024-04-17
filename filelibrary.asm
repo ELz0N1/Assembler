@@ -89,7 +89,7 @@ fload:
   mv a2, s2
   mv s1, a1
   call fread
+
   mv a0, s1
-  
   pop3 ra, s1, s2
   ret
