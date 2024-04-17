@@ -2,8 +2,8 @@
 .include "filelibrary.asm"
 
 .data
-name: .asciz "Input file name: "
-len: .asciz "File length: "
+  name: .asciz "Input file name: "
+  len: .asciz "File length: "
 
 .text
 .global main
