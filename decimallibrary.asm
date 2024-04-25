@@ -2,9 +2,9 @@
   add %r1, %r2, %r3
   sltz t0, %r3
   slt t1, %r1, %r2
-  beq t0, t1, skiperror
+  beq t0, t1, skip_error
   error "Overflow error"
-skiperror:
+skip_error:
 .end_macro
 
 
@@ -19,6 +19,18 @@ symbolcheck:
 symbolerror:
   error "Inncorect symbol!"
 
+
+mul10:
+  li t0, 214748364
+  bge a0, t0, muloverflowerror
+  slli t0, a0, 3
+  add t0, t0, a0
+  add a0, t0, a0
+  ret
+  
+muloverflowerror:
+  error "Overflow error"
+	
 
 readDecimal:
   push3 ra, s0, s1
@@ -63,7 +75,7 @@ endread:
   ret
   
 err_muloverflow:
-  error "Overflow error!"
+  error "Overflow error"
   
   
 printDecimal:
