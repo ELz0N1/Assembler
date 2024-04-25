@@ -75,6 +75,24 @@ str: .asciz %str
   addi sp, sp, 16
 .end_macro
 
+.macro push5 %r1, %r2, %r3, %r4, %r5
+  addi sp, sp, -20
+  sw %r1, 0(sp)
+  sw %r2, 4(sp)
+  sw %r3, 8(sp)
+  sw %r4, 12(sp)
+  sw %r5, 16(sp)
+.end_macro
+
+.macro pop5 %r1, %r2, %r3, %r4, %r5
+  lw %r1, 0(sp)
+  lw %r2, 4(sp)
+  lw %r3, 8(sp)
+  lw %r4, 12(sp)
+  lw %r5, 16(sp)
+  addi sp, sp, 20
+.end_macro
+
 .eqv scr t6
 .macro bnei %r, %i, %label
   li scr, %i
