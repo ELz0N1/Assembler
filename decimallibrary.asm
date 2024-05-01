@@ -10,26 +10,14 @@ skip_error:
 
 symbolcheck:
   li t0, 58
-  bge a0, t0, symbolerror
+  bge a0, t0, symbol_error
   li t0, 48
-  blt a0, t0, symbolerror
+  blt a0, t0, symbol_error
   addi a0, a0, -48
   ret
   
-symbolerror:
+symbol_error:
   error "Inncorect symbol!"
-
-
-mul10:
-  li t0, 214748364
-  bge a0, t0, muloverflowerror
-  slli t0, a0, 3
-  add t0, t0, a0
-  add a0, t0, a0
-  ret
-  
-muloverflowerror:
-  error "Overflow error"
 	
 
 readDecimal:
@@ -56,11 +44,7 @@ readloop:
   call symbolcheck
   swap s0, a0
   
-  li t0, 214748364
-  bge a0, t0, err_muloverflow
-  slli t0, a0, 3
-  add t0, t0, a0
-  add a0, t0, a0
+  call mul10 # добавил
   
   addWithOverflowCheck s0, s0, a0
   j readloop
