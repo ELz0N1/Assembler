@@ -19,6 +19,7 @@ enddiv10:
   pop3 ra, s0, s1
   ret
  
+ 
 mod10:
   push2 ra, s0
   mv s0, a0
@@ -28,3 +29,15 @@ mod10:
   sub a0, s0, a0
   pop2 ra, s0
   ret
+  
+  
+mul10:
+  li t0, 214748364
+  bge a0, t0, muloverflow_error
+  slli t0, a0, 3
+  add t0, t0, a0
+  add a0, t0, a0
+  ret
+  
+muloverflow_error:
+  error "Overflow error"
