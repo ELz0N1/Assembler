@@ -1,4 +1,4 @@
-.macro addWithOverflowCheck %r1 %r2 %r3
+.macro add_with_overflow_check %r1 %r2 %r3
   add %r1, %r2, %r3
   sltz t0, %r3
   slt t1, %r1, %r2
@@ -6,6 +6,7 @@
   error "Overflow error"
 skip_error:
 .end_macro
+
 
 
 symbolcheck:
@@ -19,6 +20,7 @@ symbolcheck:
 symbol_error:
   error "Inncorect symbol!"
 	
+
 
 readDecimal:
   push3 ra, s0, s1
@@ -46,7 +48,7 @@ readloop:
   
   call mul10 # добавил
   
-  addWithOverflowCheck s0, s0, a0
+  add_with_overflow_check s0, s0, a0
   j readloop
   
 endloop:
@@ -61,7 +63,8 @@ endread:
 err_muloverflow:
   error "Overflow error"
   
-  
+ 
+   
 printDecimal:
   push3 ra, s0, s1
   li s1, 0
@@ -91,6 +94,7 @@ loopprintdecimal:
   ret
 
 
+
 readOperation:
   readch
   
@@ -104,8 +108,9 @@ _sub:
   neg s1, s1
 
 _add:
-  addWithOverflowCheck a0, s0, s1
+  add_with_overflow_check a0, s0, s1
   ret
+  
   
   
 lenbinform:
@@ -118,6 +123,7 @@ lenbinloop:
   
   mv a0, t0
   ret
+
 
 	
 udiv:
@@ -136,24 +142,26 @@ udiv:
   sll s1, s1, t0
   li t3, 0 # quotient
   
-udivloop:
+udiv_loop:
   and t2, s0, t1 # t2 = current dividend
   slli t3, t3, 1
-  blt t2, s1, udivloopend
+  blt t2, s1, udiv_loop_end
   addi t3, t3, 1
   sub s0, s0, s1
   
-udivloopend:
+udiv_loop_end:
   srli t1, t1, 1
   srli s1, s1, 1
   addi t0, t0, -1
-  bgez t0, udivloop
+  bgez t0, udiv_loop
 	
   mv a0, t3
   pop3 ra, s0, s1
   ret
+  
 udiv_error:
   error "Сan't be divided by zero"
+
 
 
 sdiv:
@@ -170,9 +178,40 @@ sdivsecondnumber:
   
 sdivexecution:
   call udiv
-  beqz s0, sdivend
+  beqz s0, sdiv_end
   neg a0, a0
   
-sdivend:
+sdiv_end:
   pop2 ra, s0
   ret
+
+
+
+isqrt:
+  push ra
+  bltz a0, isqrt_error
+  li t0, 30
+  li t1, 0 # result
+  
+isqrt_loop:
+  li t2, -1
+  sll t2, t2, t0
+  and t3, a0, t2 # t3 = tmp sqrt(a0)
+  slli t1, t1, 1
+  slli t4, t1, 1
+  addi t4, t4, 1
+  sll t4, t4, t0
+  
+  blt t3, t4, isqrt_loop_end
+  addi t1, t1, 1
+  sub a0, a0, t4
+  
+isqrt_loop_end:
+  addi t0, t0, -2
+  bgez t0, isqrt_loop
+  mv a0, t1
+  pop ra
+  ret
+  
+isqrt_error:
+  error "isqrt can't take negative input values"
