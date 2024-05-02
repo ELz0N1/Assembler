@@ -27,19 +27,18 @@ main:
   call flength
   
   mv s2, a0
-  swap s1, a0
     
   newline
   la a0, len
   syscall 4
     
-  mv a0, s1
+  mv a0, s2
   syscall 1
     
-  mv a0, s2
+  mv a0, s1
   call fload
     
-  swap s2, a0
+  swap s1, a0
   fclose
   exit 0  
       
