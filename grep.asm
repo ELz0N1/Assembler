@@ -1,8 +1,8 @@
-.macro check_grep_c %labely
+.macro check_grep_c %label
   andi t0, s6, 2
   beqz t0, check_grep_c_end
   addi s7, s7, 1
-  j %labely
+  j %label
 check_grep_c_end:
 .end_macro
 
@@ -21,8 +21,8 @@ check_grep_n_end:
 
 
 grep:
-  push5, ra, s1, s2, s3, s4
-  push3 s5, s6, s7 
+  push4 ra, s1, s2, s3
+  push4 s4, s5, s6, s7 
   mv s1, a0  #  array
   mv s2, a1  #  size
   mv s3, a2  #  str
@@ -66,6 +66,6 @@ grep_loop_end:
   newline
   
 grep_end:
-  pop3 s5, s6, s7
-  pop5 ra, s1, s2, s3, s4
+  pop4 s4, s5, s6, s7
+  pop4 ra, s1, s2, s3
   ret
