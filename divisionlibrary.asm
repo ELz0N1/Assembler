@@ -12,8 +12,7 @@ div10:
   srli s0, s0, 1
 enddiv10:
   mv a0, s0
-  li a1, 10
-  call multiply
+  call mul10
   slt a0, s1, a0
   sub a0, s0, a0
   pop3 ra, s0, s1
@@ -24,8 +23,7 @@ mod10:
   push2 ra, s0
   mv s0, a0
   call div10
-  li a1, 10
-  call multiply
+  call mul10
   sub a0, s0, a0
   pop2 ra, s0
   ret
