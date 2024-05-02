@@ -1,7 +1,7 @@
 .include "macrolibrary.asm"
 .include "filelibrary.asm"
 .include "strchr.asm"
-.include "testLib.asm"
+.include "strchr_testLib.asm"
 
 .text
 .global main
