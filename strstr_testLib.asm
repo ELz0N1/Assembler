@@ -18,14 +18,14 @@
 .data
   str1: .asciz %str1
   str2: .asciz %str2
-  OK_test_failed: .asciz "Test falied: "
-  OK_func_name: .asciz "strstr"
-  OK_open_bracket: .asciz "(“"
-  OK_res: .asciz "”) results in OK("
-  OK_exp_ok: .asciz "), expected OK("
-  OK_exp_none: .asciz "), expected NONE\n"
-  OK_comma:  .asciz "”, ”"
-  OK_end_string: .asciz ")\n"
+  ok_test_failed: .asciz "Test falied: "
+  ok_func_name: .asciz "strstr"
+  ok_open_bracket: .asciz "(“"
+  ok_res: .asciz "”) results in OK("
+  ok_exp_ok: .asciz "), expected OK("
+  ok_exp_none: .asciz "), expected NONE\n"
+  ok_comma: .asciz "”, ”"
+  ok_end_string: .asciz ")\n"
 .text
   la a0, str1
   la a1, str2
@@ -34,77 +34,58 @@
   li s3, %ans
   call strstr
   mv s4, a0
-  beqz a0, OKtestfaliednone
+  beqz a0, OK_test_falied_none
   sub s4, s4, s1
-  bne s3, s4, OKtestfalied
+  bne s3, s4, OK_test_falied
   addi s5, s5, 1
-  j endOKtest
-OKtestfalied:
-
-  la a0, OK_test_failed
-  syscall 4 
-
-  la a0, OK_func_name
-  syscall 4
-
-  la a0, OK_open_bracket
-  syscall 4 
+  j OK_end
   
+OK_test_falied:
+  la a0, ok_test_failed
+  syscall 4 
+  la a0, ok_func_name
+  syscall 4
+  la a0, ok_open_bracket
+  syscall 4 
   mv a0, s1
   syscall 4
-
-  la a0, OK_comma
+  la a0, ok_comma
   syscall 4 
-  
   mv a0, s2
   syscall 4
-
-  la a0, OK_res
+  la a0, ok_res
   syscall 4 
-  
   mv a0, s3
   syscall 1
-
-  la a0, OK_exp_ok
+  la a0, ok_exp_ok
   syscall 4 
-  
   mv a0, s4
   syscall 1
-
-  la a0, OK_end_string
+  la a0, ok_end_string
   syscall 4 
-
   addi s6, s6, 1
-  j endOKtest
-OKtestfaliednone:
-  la a0, OK_test_failed
+  j OK_end
+OK_test_falied_none:
+  la a0, ok_test_failed
   syscall 4 
-  
-  la a0, OK_func_name
+  la a0, ok_func_name
   syscall 4
-
-  la a0, OK_open_bracket
-  syscall 4
-  
+  la a0, ok_open_bracket
+  syscall 4  
   mv a0, s1
   syscall 4
-
-  la a0, OK_comma
-  syscall 4
-  
+  la a0, ok_comma
+  syscall 4 
   mv a0, s2
   syscall 4
-
-  la a0, OK_res
-  syscall 4
-  
+  la a0, ok_res
+  syscall 4 
   mv a0, s3
   syscall 1
-
-  la a0, OK_exp_none
+  la a0, ok_exp_none
   syscall 4
   addi s6, s6, 1
-endOKtest:
+OK_end:
 .end_macro
 
 
@@ -112,13 +93,13 @@ endOKtest:
 .data
   str1: .asciz %str1
   str2: .asciz %str2
-  NONE_test_failed: .asciz "Test falied: "
-  NONE_func_name: .asciz "strstr"
-  NONE_open_bracket: .asciz "(“"
-  NONE_res: .asciz "”) results in OK("
-  NONE_res_exp: .asciz "”) results in NONE, expected OK("
-  NONE_comma:  .asciz "”, ”"
-  NONE_end_string: .asciz ")\n"
+  none_test_failed: .asciz "Test falied: "
+  none_func_name: .asciz "strstr"
+  none_open_bracket: .asciz "(“"
+  none_res: .asciz "”) results in OK("
+  none_res_exp: .asciz "”) results in NONE, expected OK("
+  none_comma:  .asciz "”, ”"
+  none_end_string: .asciz ")\n"
 .text
   la a0, str1
   la a1, str2
@@ -126,36 +107,27 @@ endOKtest:
   mv s2, a1
   call strstr
   mv s4, a0
-  bnez s4, NONEtestfalied
+  bnez s4, NONE_test_falied
   addi s5, s5, 1
   j NONE_test_end
-NONEtestfalied:
-  la a0, NONE_test_failed
+NONE_test_falied:
+  la a0, none_test_failed
   syscall 4
-
-  la a0, NONE_func_name
+  la a0, none_func_name
   syscall 4
-
-  la a0, NONE_open_bracket
-  syscall 4
-  
+  la a0, none_open_bracket
+  syscall 4  
   mv a0, s1
   syscall 4
-
-  la a0, NONE_comma
-  syscall 4 
-  
+  la a0, none_comma
+  syscall 4  
   mv a0, s2
   syscall 4
-
-  la a0, NONE_res_exp
+  la a0, none_res_exp
   syscall 4 
-
-  #sub s4, s4, s1
   mv a0, s4
   syscall 1
-
-  la a0, NONE_end_string
+  la a0, none_end_string
   syscall 4
   addi s6, s6, 1
 NONE_test_end:

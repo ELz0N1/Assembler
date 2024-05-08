@@ -3,7 +3,7 @@
   failed_message_1: .asciz "Test is falied: "
   failed_message_2: .asciz ") results in "
   failed_message_3: .asciz "expected "
-  comma: .asciz ", "
+  failed_message_4: .asciz ", "
 .text
   la a0, failed_message_1
   syscall 4
@@ -13,7 +13,7 @@
   printch
   mv a0, %str
   syscall 4
-  la a0, comma
+  la a0, failed_message_4
   syscall 4
   mv a0, %chr
   printch
@@ -37,18 +37,17 @@
 .text
   li a1 -1
   beq %res, a1, write_res_none
-
   la a0, ok
   syscall 4
   mv a0, %res
   syscall 1
   li a0, ')'
   printch
-  j end_write_res
+  j write_result_end
 write_res_none:
   la a0, none
   syscall 4
-end_write_res:
+write_result_end:
 .end_macro
 
 
@@ -71,59 +70,54 @@ end_write_res:
 
 .macro OK %ans %str %chr
 .data
-  string: .asciz %str
+  str: .asciz %str
 .text
-  la a0, string
+  la a0, str
   li a1, %chr
   jalr s0, 0
-  la t0, string
+  la t0, str
   li t3, %ans
-  beqz a0, none
-
+  beqz a0, OK_none
   sub t2, a0, t0
-  bne t2, t3, failed
-
+  bne t2, t3, OK_failed
   addi s2, s2, 1
-  j end
-failed:
+  j OK_end
+  
+OK_failed:
   addi s3, s3, 1
-
   li t1 %chr
    write_failed_message t0 t1 t2 t3
-
-   j end
-none:
+   j OK_end
+   
+OK_none:
   addi s3, s3, 1
-
   li t1, %chr
   li t2, -1
   write_failed_message t0 t1 t2 t3
-end:
+  
+OK_end:
 .end_macro
 
 
 .macro NONE %str %chr
 .data
-  line: .asciz %str
+  str: .asciz %str
 .text
-  la a0, line
+  la a0, str
   li a1, %chr
   jalr s0, 0
-
-  bnez a0, failed
-
+  bnez a0, NONE_failed
   addi s2, s2, 1
-
-  j end
-failed:
+  j NONE_end
+  
+NONE_failed:
   addi s3, s3, 1
-
-  la t0, line
+  la t0, str
   li t1, %chr
   sub t2, a0, t0
   li t3, -1
   write_failed_message t0 t1 t2 t3
-end:
+NONE_end:
 .end_macro
 
 
@@ -142,3 +136,4 @@ end:
   syscall 1
   exit 0
 .end_macro
+
